@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "master" ]  # 触发分支需匹配您的分支名
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 安装 Hugo 扩展版（必须）
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.128.0'  # 需与本地版本一致
+          extended: true           # 启用 Sass/SCSS 支持
+
+      # 构建静态文件
+      - name: Build
+        run: hugo --minify
+
+      # 部署到 gh-pages 分支
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public     # Hugo 默认输出目录
+          publish_branch: gh-pages # 或改为 main 分支（若用 /docs）
