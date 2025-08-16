@@ -5,4 +5,4 @@ title: 'First Post'
 ---
 ## 欢迎阅读我的第一篇文章
 - Hugo 的 YAML 配置已生效
-- 主题 PaperMod 支持响应我的式设计
+- 主题 PaperMod 我的第一个页面
