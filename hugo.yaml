@@ -1,7 +1,8 @@
+baseURL: "https://gitychzh.github.io/myblog_github/"  # 末尾必须带斜杠
 #baseURL: "http://example.org/"  # 临时地址，部署前需替换
 title: "我的博客"
 languageCode: "zh-CN"
 theme: "PaperMod"  # 主题名称必须与 themes/ 下目录名一致
 params:
   defaultTheme: "light"  # 强制浅色模式（可选）
-baseURL: "https://gitychzh.github.io/myblog_github.github/"  # 末尾必须带斜杠
+
