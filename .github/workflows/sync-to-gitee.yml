@@ -1,0 +1,36 @@
+name: Sync GitHub to Gitee
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    # 每天UTC时间2点（北京时间10点）同步一次，作为事件触发的备份
+    - cron: '0 2 * * *'
+
+jobs:
+  sync-to-gitee:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub repository
+        uses: actions/checkout@v3
+        with:
+          # 使用SSH方式检出，以便后续推送
+          ssh-key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+          fetch-depth: 0  # 获取所有分支和标签的历史
+
+      - name: Setup Git config
+        run: |
+          git config user.name "GitHub Actions Sync Bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Add Gitee remote
+        run: git remote add gitee git@gitee.com:kaola_coding/blog_lkgf.git
+
+      - name: Push to Gitee
+        run: |
+          # 强制推送所有分支和标签到Gitee
+          git push gitee --all --force
+          git push gitee --tags --force
+        env:
+          # 使用之前配置的SSH私钥
+          GIT_SSH_COMMAND: "ssh -i ${{ secrets.GITEE_SSH_PRIVATE_KEY }}"
